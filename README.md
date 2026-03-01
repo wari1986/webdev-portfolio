@@ -1,4 +1,4 @@
-# Variant-Inspired Web Dev Portfolio
+# Web Dev Portfolio
 
 Single-page, high-fidelity, interactive portfolio inspired by the Variant-style visual language.
 
@@ -8,8 +8,6 @@ Single-page, high-fidelity, interactive portfolio inspired by the Variant-style 
 - Tailwind CSS
 - React Query + Axios (prewired)
 - RHF + Zod (installed for v2 form work)
-- Vitest (unit)
-- Playwright (E2E)
 
 ## Run
 ```bash
