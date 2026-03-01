@@ -71,7 +71,7 @@ const HeroOverlay = ({ title, subtitle }: Props) => {
       aria-label="Project headline"
     >
       <h1
-        className="pointer-events-auto m-0 max-w-[650px] text-[var(--color-fg)] text-[clamp(2rem,5.3vw,4.1rem)] leading-[1.06] tracking-[-0.03em] font-semibold"
+        className="pointer-events-auto m-0 max-w-[650px] text-[var(--color-fg)] text-[clamp(2rem,5.3vw,4.1rem)] leading-[1.06] tracking-[-0.03em] font-semibold max-[960px]:max-w-[320px]"
         onPointerEnter={runScramble}
       >
         {scrambleActive
@@ -81,7 +81,7 @@ const HeroOverlay = ({ title, subtitle }: Props) => {
               return (
                 <span
                   key={`${index}-${char}-${revealCount}`}
-                  className={isScramblingChar ? "text-neutral-600" : "text-[var(--color-fg)]"}
+                  className={isScramblingChar ? "text-neutral-500" : "text-[var(--color-fg)]"}
                 >
                   {char}
                 </span>
@@ -89,7 +89,7 @@ const HeroOverlay = ({ title, subtitle }: Props) => {
             })
           : title}
       </h1>
-      <p className="mt-3 mb-0 max-w-[520px] text-[var(--color-fg-soft)] font-mono text-[clamp(0.85rem,1.3vw,1rem)]">
+      <p className="mt-2 mb-0 max-w-[520px] text-[var(--color-fg-soft)] font-mono text-[clamp(0.78rem,1.3vw,1rem)]">
         {subtitle}
       </p>
     </section>

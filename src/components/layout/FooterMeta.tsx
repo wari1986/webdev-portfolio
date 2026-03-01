@@ -44,12 +44,13 @@ const FooterMeta = ({
 
   return (
     <footer className="border-t border-[rgba(17,17,17,0.14)] px-6 pt-5 pb-4 flex-1 flex flex-col justify-between max-[960px]:px-3.5 max-[960px]:pt-3.5 max-[960px]:pb-3" data-testid="footer-meta">
-      <div className="grid grid-cols-[1.3fr_0.8fr_auto] gap-5 max-[960px]:grid-cols-1 max-[960px]:gap-3.5">
-        <div>
-          <p className="m-0 font-mono text-[0.75rem] uppercase tracking-[0.02em] text-[var(--color-fg-muted)]">{`${authorMeta} ${clock} GMT+1`}</p>
+      <div className="grid grid-cols-[1.3fr_0.8fr] gap-5 max-[960px]:grid-cols-1 max-[960px]:gap-3.5">
+        <div className="max-[960px]:order-1">
+          <p className="m-0 font-mono text-[0.75rem] uppercase tracking-[0.02em] text-[var(--color-fg-muted)] max-[960px]:hidden">{`${authorMeta} ${clock} GMT+1`}</p>
           <p className="mt-1.5 mb-0 max-w-[460px] text-[0.9rem] leading-[1.4] text-[var(--color-fg)]">{authorDescription}</p>
+          <p className="mt-2 m-0 text-[0.82rem] text-[var(--color-fg-muted)] min-[961px]:hidden">{statusLine}</p>
         </div>
-        <nav className="flex flex-col gap-1" aria-label="Social links">
+        <nav className="flex flex-col gap-1 max-[960px]:order-3" aria-label="Social links">
           {socialLinks.map((item) => (
             <Link
               key={item.id}
@@ -62,10 +63,9 @@ const FooterMeta = ({
             </Link>
           ))}
         </nav>
-        <div className="text-right font-mono text-[0.82rem] text-[#333333] max-[960px]:text-left">{year}</div>
       </div>
 
-      <div className="flex items-end justify-between max-[960px]:flex-col max-[960px]:gap-1.5">
+      <div className="flex items-end justify-between max-[960px]:hidden">
         <div>
           <p className="m-0 text-[0.82rem] text-[var(--color-fg-muted)]">{statusLine}</p>
         </div>
