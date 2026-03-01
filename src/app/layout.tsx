@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import Providers from "@/app/providers";
+import GlobalCursor from "@/components/ui/GlobalCursor";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,9 +29,12 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className="min-h-full w-full">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} min-h-full w-full m-0 bg-[var(--color-bg)] text-[var(--color-fg)] font-[var(--font-geist-sans),Inter,system-ui,-apple-system,Segoe_UI,sans-serif] [&_a]:text-inherit [@media(pointer:fine)]:cursor-none`}
+      >
         <Providers>{children}</Providers>
+        <GlobalCursor />
       </body>
     </html>
   );
