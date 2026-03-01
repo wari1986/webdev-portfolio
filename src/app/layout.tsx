@@ -16,13 +16,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Variant-Inspired Portfolio",
+  title: "Nicolay Camacho Portfolio",
   description:
-    "Interactive web development portfolio with a displacement-based ASCII canvas and minimal interface.",
+    "Portfolio of Nicolay Camacho: full-stack systems, automation, and applied AI.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   openGraph: {
-    title: "Variant-Inspired Portfolio",
+    title: "Nicolay Camacho Portfolio",
     description:
-      "Interactive web development portfolio with a displacement-based ASCII canvas and minimal interface.",
+      "Portfolio of Nicolay Camacho: full-stack systems, automation, and applied AI.",
     type: "website",
   },
 };
