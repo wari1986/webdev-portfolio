@@ -1,36 +1,27 @@
 import { AsciiEngineConfig, SiteContent } from "@/types/site";
 
 export const siteContent: SiteContent = {
-  brand: "kozmanishvili",
-  routeLabel: "Explore More 2",
-  title: "System Architecture & Visual Displacement",
-  subtitle: "Exploring the delta between signal and noise.",
-  authorMeta: "SANDRO KOZMANISHVILI   20:20:17 UTC+4",
+  title: "Software Engineer",
+  subtitle: "Full-stack systems, automation & AI tooling.",
+  authorMeta: "Nicolay Camacho",
   authorDescription:
-    "Multidisciplinary designer based in Tbilisi. Focusing on the intersection of generative visuals and functional interfaces.",
-  statusLine: "Currently building visual video sound and digital products.",
-  utilityCounters: [
-    { id: "bookmark", icon: "bookmark", value: 1 },
-    { id: "heart", icon: "heart", value: 266 },
-  ],
+    "Software engineer based in Ghent, building web systems and AI powered tools.",
+    statusLine:
+    "Currently building real-time trading interfaces, backend automation services, and internal AI-powered tools.",
   socialLinks: [
-    { id: "email", label: "Email", href: "mailto:hello@example.dev", external: true },
-    { id: "github", label: "GitHub", href: "https://github.com", external: true },
-    { id: "linkedin", label: "LinkedIn", href: "https://linkedin.com", external: true },
-    { id: "x", label: "X / Twitter", href: "https://x.com", external: true },
+    { id: "email", label: "Email", href: "mailto:nicolaycamacho@gmail.com", external: true },
+    { id: "github", label: "GitHub", href: "https://github.com/wari1986", external: true },
+    { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/nicolay-camacho-351bb391/", external: true },
   ],
-  monogramLeft: "S",
-  monogramRight: "K",
-  year: "© 2026",
+  year: `© ${new Date().getFullYear()}`,
   indexLabel: "0",
-  debugLabel: "RENDER: 2.6ms   X: 725 Y: 538",
 };
 
 export const asciiEngineConfig: AsciiEngineConfig = {
   cellSize: 12,
-  charset: ".:;il1tfxX08#@",
-  noiseScale: 0.013,
-  animationSpeed: 0.0009,
-  lensRadius: 56,
+  charset: " .'`^,:;Il!i><~+_-?][}{1)(|\\\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$",
+  noiseScale: 14.2,
+  animationSpeed: 0.006,
+  lensRadius: 16,
   dprCap: 2,
 };

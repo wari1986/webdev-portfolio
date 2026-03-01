@@ -5,27 +5,15 @@ export type SocialLink = {
   external: boolean;
 };
 
-export type UtilityCounter = {
-  id: string;
-  icon: "bookmark" | "heart";
-  value: number;
-};
-
 export type SiteContent = {
-  brand: string;
   title: string;
   subtitle: string;
   authorMeta: string;
   authorDescription: string;
   statusLine: string;
-  utilityCounters: UtilityCounter[];
   socialLinks: SocialLink[];
-  monogramLeft: string;
-  monogramRight: string;
   year: string;
   indexLabel: string;
-  debugLabel: string;
-  routeLabel: string;
 };
 
 export type AsciiEngineConfig = {
@@ -45,12 +33,6 @@ export type LensState = {
   dragging: boolean;
 };
 
-export type TopStripProps = {
-  brand: string;
-  routeLabel: string;
-  utilityCounters: UtilityCounter[];
-};
-
 export type FooterMetaProps = {
   authorMeta: string;
   authorDescription: string;
@@ -58,7 +40,6 @@ export type FooterMetaProps = {
   year: string;
   indexLabel: string;
   statusLine: string;
-  debugLabel: string;
 };
 
 export type AsciiDisplacementCanvasProps = {
