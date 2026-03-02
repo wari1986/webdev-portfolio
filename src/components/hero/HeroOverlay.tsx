@@ -81,7 +81,7 @@ const HeroOverlay = ({ title, subtitle }: Props) => {
               return (
                 <span
                   key={`${index}-${char}-${revealCount}`}
-                  className={isScramblingChar ? "text-neutral-500" : "text-[var(--color-fg)]"}
+                  className={isScramblingChar ? "text-[var(--color-scramble)]" : "text-[var(--color-fg)]"}
                 >
                   {char}
                 </span>

@@ -51,8 +51,8 @@ const GlobalCursor = () => {
       style={{ opacity: visible ? 1 : 0 }}
       aria-hidden="true"
     >
-      <span className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(18,18,18,0.5)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)]" />
-      <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(18,18,18,0.82)]" />
+      <span className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[var(--color-cursor-ring)] shadow-[inset_0_0_0_1px_var(--color-cursor-ring-inner)]" />
+      <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--color-cursor-dot)]" />
     </div>
   );
 };

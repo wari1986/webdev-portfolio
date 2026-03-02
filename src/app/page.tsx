@@ -1,6 +1,7 @@
 import AsciiDisplacementCanvas from "@/components/canvas/AsciiDisplacementCanvas";
 import FooterMeta from "@/components/layout/FooterMeta";
 import HeroOverlay from "@/components/hero/HeroOverlay";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 import { asciiEngineConfig, siteContent } from "@/lib/content/siteContent";
 
@@ -10,9 +11,13 @@ const HomePage = () => {
       <div className="relative flex">
         <main
           id="main"
-          className="h-screen w-screen overflow-hidden border border-white/15 bg-[var(--color-panel)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.08)] flex flex-col"
+          className="relative h-screen w-screen overflow-hidden border border-[var(--color-panel-border)] bg-[var(--color-panel)] shadow-[inset_0_0_0_1px_var(--color-panel-inner-border)] flex flex-col"
           data-testid="main-panel"
         >
+          <div className="absolute right-4 top-4 z-10 max-[960px]:right-3 max-[960px]:top-3">
+            <ThemeToggle />
+          </div>
+
           <section
             className="relative h-[min(66dvh,640px)] max-[960px]:h-[min(56dvh,480px)]"
             aria-label="Interactive visual field"

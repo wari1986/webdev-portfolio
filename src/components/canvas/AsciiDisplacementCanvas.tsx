@@ -54,6 +54,8 @@ const AsciiDisplacementCanvas = ({ config, title, subtitle }: AsciiDisplacementC
 
     let width = 0;
     let height = 0;
+    let asciiColor = "100, 100, 100";
+    let asciiBinaryColor = "0, 0, 0";
     const lensEffectRadius = 150;
     const densityChars =
       " .'`^,:;Il!i><~+_-?][}{1)(|\\\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
@@ -74,12 +76,29 @@ const AsciiDisplacementCanvas = ({ config, title, subtitle }: AsciiDisplacementC
       context.textBaseline = "middle";
       context.font = `${config.cellSize}px monospace`;
       context.textAlign = "center";
-      context.fillStyle = "rgba(100, 100, 100, 1)";
+      context.fillStyle = `rgba(${asciiColor}, 1)`;
+    };
+
+    const updatePalette = () => {
+      const rootStyle = getComputedStyle(document.documentElement);
+      const nextAsciiColor = rootStyle.getPropertyValue("--color-ascii").trim();
+      const nextAsciiBinaryColor = rootStyle.getPropertyValue("--color-ascii-binary").trim();
+      asciiColor = nextAsciiColor || "100, 100, 100";
+      asciiBinaryColor = nextAsciiBinaryColor || "0, 0, 0";
     };
 
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(wrapper);
+    updatePalette();
     resize();
+
+    const themeObserver = new MutationObserver(() => {
+      updatePalette();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
 
     let currentLensX = width * 0.5;
     let currentLensY = height * 0.66;
@@ -153,9 +172,9 @@ const AsciiDisplacementCanvas = ({ config, title, subtitle }: AsciiDisplacementC
             const lensStrength = 1 - dist / lensEffectRadius;
             if (Math.random() > 0.5) {
               char = Math.random() > 0.5 ? "0" : "1";
-              context.fillStyle = `rgba(0, 0, 0, ${lensStrength})`;
+              context.fillStyle = `rgba(${asciiBinaryColor}, ${lensStrength})`;
             } else {
-              context.fillStyle = `rgba(100, 100, 100, ${alpha})`;
+              context.fillStyle = `rgba(${asciiColor}, ${alpha})`;
             }
 
             const safeDist = dist === 0 ? 1 : dist;
@@ -163,7 +182,7 @@ const AsciiDisplacementCanvas = ({ config, title, subtitle }: AsciiDisplacementC
             const shiftY = (dy / safeDist) * 10 * lensStrength;
             context.fillText(char, posX + cell / 2 - shiftX, posY + cell / 2 - shiftY);
           } else if (char) {
-            context.fillStyle = `rgba(100, 100, 100, ${alpha})`;
+            context.fillStyle = `rgba(${asciiColor}, ${alpha})`;
             context.fillText(char, posX + cell / 2, posY + cell / 2);
           }
         }
@@ -178,6 +197,7 @@ const AsciiDisplacementCanvas = ({ config, title, subtitle }: AsciiDisplacementC
 
     return () => {
       resizeObserver.disconnect();
+      themeObserver.disconnect();
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     };

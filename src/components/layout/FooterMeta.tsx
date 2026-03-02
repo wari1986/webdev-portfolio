@@ -24,7 +24,7 @@ const FooterMeta = ({
   statusLine,
 }: FooterMetaProps) => {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
-  const [clock, setClock] = useState(() => getGmtPlusOneClock());
+  const [clock, setClock] = useState("");
 
   useEffect(() => {
     const onMove = (event: MouseEvent) => {
@@ -36,17 +36,23 @@ const FooterMeta = ({
   }, []);
 
   useEffect(() => {
+    const initialTick = window.setTimeout(() => {
+      setClock(getGmtPlusOneClock());
+    }, 0);
     const timer = window.setInterval(() => {
       setClock(getGmtPlusOneClock());
     }, 1000);
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearTimeout(initialTick);
+      window.clearInterval(timer);
+    };
   }, []);
 
   return (
-    <footer className="border-t border-[rgba(17,17,17,0.14)] px-6 pt-5 pb-4 flex-1 flex flex-col justify-between max-[960px]:px-3.5 max-[960px]:pt-3.5 max-[960px]:pb-3" data-testid="footer-meta">
+    <footer className="border-t border-[var(--color-divider)] px-6 pt-5 pb-4 flex-1 flex flex-col justify-between max-[960px]:px-3.5 max-[960px]:pt-3.5 max-[960px]:pb-3" data-testid="footer-meta">
       <div className="grid grid-cols-[1.3fr_0.8fr] gap-5 max-[960px]:grid-cols-1 max-[960px]:gap-3.5">
         <div className="max-[960px]:order-1">
-          <p className="m-0 font-mono text-[0.75rem] uppercase tracking-[0.02em] text-[var(--color-fg-muted)] max-[960px]:hidden">{`${authorMeta} ${clock} GMT+1`}</p>
+          <p suppressHydrationWarning className="m-0 font-mono text-[0.75rem] uppercase tracking-[0.02em] text-[var(--color-fg-muted)]">{`${authorMeta} ${clock} GMT+1`}</p>
           <p className="mt-1.5 mb-0 max-w-[460px] text-[0.9rem] leading-[1.4] text-[var(--color-fg)]">{authorDescription}</p>
           <p className="mt-2 m-0 text-[0.82rem] text-[var(--color-fg-muted)] min-[961px]:hidden">{statusLine}</p>
         </div>
@@ -57,7 +63,7 @@ const FooterMeta = ({
               href={item.href}
               target={item.external ? "_blank" : undefined}
               rel={item.external ? "noreferrer" : undefined}
-              className="inline-flex min-h-7 w-fit items-center text-[0.9rem] text-[#1b1b1b] no-underline hover:underline outline-none focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+              className="inline-flex min-h-7 w-fit items-center text-[0.9rem] text-[var(--color-link)] no-underline hover:underline outline-none focus-visible:outline-2 focus-visible:outline-[var(--color-focus-outline)] focus-visible:outline-offset-2"
             >
               {item.label}
             </Link>
