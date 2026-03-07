@@ -13,7 +13,6 @@ export type SiteContent = {
   statusLine: string;
   socialLinks: SocialLink[];
   year: string;
-  indexLabel: string;
 };
 
 export type AsciiEngineConfig = {
@@ -38,8 +37,6 @@ export type FooterMetaProps = {
   authorDescription: string;
   socialLinks: SocialLink[];
   year: string;
-  indexLabel: string;
-  statusLine: string;
 };
 
 export type AsciiDisplacementCanvasProps = {

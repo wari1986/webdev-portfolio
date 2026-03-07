@@ -5,6 +5,8 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 
 import { asciiEngineConfig, siteContent } from "@/lib/content/siteContent";
 
+const ctaHref = siteContent.socialLinks.find((l) => l.id === "email")?.href ?? "#";
+
 const HomePage = () => {
   return (
     <div className="h-screen bg-[var(--color-bg)]">
@@ -23,7 +25,18 @@ const HomePage = () => {
             aria-label="Interactive visual field"
           >
             <AsciiDisplacementCanvas config={asciiEngineConfig} title={siteContent.title} subtitle={siteContent.subtitle} />
-            <HeroOverlay title={siteContent.title} subtitle={siteContent.subtitle} />
+            {/* Vignette: fades canvas into the panel background so hero text reads cleanly */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-0 bottom-0 h-[45%] z-[1] pointer-events-none"
+              style={{ background: "linear-gradient(to top, var(--color-panel), transparent)" }}
+            />
+            <HeroOverlay
+              title={siteContent.title}
+              subtitle={siteContent.subtitle}
+              statusLine={siteContent.statusLine}
+              ctaHref={ctaHref}
+            />
           </section>
 
           <FooterMeta
@@ -31,8 +44,6 @@ const HomePage = () => {
             authorDescription={siteContent.authorDescription}
             socialLinks={siteContent.socialLinks}
             year={siteContent.year}
-            indexLabel={siteContent.indexLabel}
-            statusLine={siteContent.statusLine}
           />
         </main>
       </div>

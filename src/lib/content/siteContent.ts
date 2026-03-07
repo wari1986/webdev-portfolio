@@ -1,12 +1,12 @@
 import { AsciiEngineConfig, SiteContent } from "@/types/site";
 
 export const siteContent: SiteContent = {
-  title: "Software Engineer",
-  subtitle: "Full-stack systems, automation & AI tooling.",
+  title: "Nicolay Camacho",
+  subtitle: "Software Engineer · Full-stack systems, automation & AI tooling.",
   authorMeta: "Nicolay Camacho",
   authorDescription:
     "Software engineer based in Ghent, building web systems and AI powered tools.",
-    statusLine:
+  statusLine:
     "Currently building real-time trading interfaces, backend automation services, and internal AI-powered tools.",
   socialLinks: [
     { id: "email", label: "Email", href: "mailto:nicolaycamacho@gmail.com", external: true },
@@ -14,7 +14,6 @@ export const siteContent: SiteContent = {
     { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/nicolay-camacho-351bb391/", external: true },
   ],
   year: `© ${new Date().getFullYear()}`,
-  indexLabel: "0",
 };
 
 export const asciiEngineConfig: AsciiEngineConfig = {
