@@ -1,16 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 type Props = {
   title: string;
   subtitle: string;
+  statusLine: string;
+  ctaHref: string;
 };
 
 const SCRAMBLE_CHARS = " .'`^,:;Il!i><~+_-?][}{1)(|/AHJGXnyerz*#MW&8%B@$";
 const SCRAMBLE_DURATION_MS = 1250;
 
-const HeroOverlay = ({ title, subtitle }: Props) => {
+const HeroOverlay = ({ title, subtitle, statusLine, ctaHref }: Props) => {
   const [displayTitle, setDisplayTitle] = useState(title);
   const [scrambleActive, setScrambleActive] = useState(false);
   const [revealCount, setRevealCount] = useState(title.length);
@@ -92,6 +95,16 @@ const HeroOverlay = ({ title, subtitle }: Props) => {
       <p className="mt-2 mb-0 max-w-[520px] text-[var(--color-fg-soft)] font-mono text-[clamp(0.78rem,1.3vw,1rem)]">
         {subtitle}
       </p>
+      <p className="mt-3 mb-0 max-w-[480px] font-mono text-[0.72rem] text-[var(--color-fg-muted)] leading-[1.5]">
+        <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-fg-muted)] mr-2 mb-[1px] align-middle" aria-hidden="true" />
+        {statusLine}
+      </p>
+      <Link
+        href={ctaHref}
+        className="pointer-events-auto mt-5 inline-flex items-center gap-1.5 text-[0.82rem] font-mono text-[var(--color-fg)] no-underline hover:underline outline-none focus-visible:outline-2 focus-visible:outline-[var(--color-focus-outline)] focus-visible:outline-offset-2"
+      >
+        Get in touch <span aria-hidden="true">→</span>
+      </Link>
     </section>
   );
 };
