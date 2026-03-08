@@ -83,7 +83,7 @@ const HeroOverlay = ({ title, subtitle, statusLine, ctaLabel, ctaHref }: Props) 
               const isScramblingChar = isWordChar && index >= revealCount;
               return (
                 <span
-                  key={`${index}-${char}-${revealCount}`}
+                  key={index}
                   className={isScramblingChar ? "text-[var(--color-scramble)]" : "text-[var(--color-fg)]"}
                 >
                   {char}
