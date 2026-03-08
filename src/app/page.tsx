@@ -5,8 +5,6 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 
 import { asciiEngineConfig, siteContent } from "@/lib/content/siteContent";
 
-const ctaHref = siteContent.socialLinks.find((l) => l.id === "email")?.href ?? "#";
-
 const HomePage = () => {
   return (
     <div className="h-screen bg-[var(--color-bg)]">
@@ -21,21 +19,21 @@ const HomePage = () => {
           </div>
 
           <section
-            className="relative h-[min(66dvh,640px)] max-[960px]:h-[min(56dvh,480px)]"
+            className="relative flex-1"
             aria-label="Interactive visual field"
           >
             <AsciiDisplacementCanvas config={asciiEngineConfig} title={siteContent.title} subtitle={siteContent.subtitle} />
-            {/* Vignette: fades canvas into the panel background so hero text reads cleanly */}
             <div
               aria-hidden="true"
-              className="absolute inset-x-0 bottom-0 h-[45%] z-[1] pointer-events-none"
-              style={{ background: "linear-gradient(to top, var(--color-panel), transparent)" }}
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%]"
+              style={{ background: "linear-gradient(to top, var(--color-panel) 0%, var(--color-panel) 12%, transparent 62%)" }}
             />
             <HeroOverlay
               title={siteContent.title}
               subtitle={siteContent.subtitle}
               statusLine={siteContent.statusLine}
-              ctaHref={ctaHref}
+              ctaLabel={siteContent.ctaLabel}
+              ctaHref={siteContent.ctaHref}
             />
           </section>
 
@@ -44,6 +42,7 @@ const HomePage = () => {
             authorDescription={siteContent.authorDescription}
             socialLinks={siteContent.socialLinks}
             year={siteContent.year}
+            statusLine={siteContent.statusLine}
           />
         </main>
       </div>

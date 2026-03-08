@@ -11,6 +11,8 @@ export type SiteContent = {
   authorMeta: string;
   authorDescription: string;
   statusLine: string;
+  ctaLabel: string;
+  ctaHref: string;
   socialLinks: SocialLink[];
   year: string;
 };
@@ -37,6 +39,7 @@ export type FooterMetaProps = {
   authorDescription: string;
   socialLinks: SocialLink[];
   year: string;
+  statusLine: string;
 };
 
 export type AsciiDisplacementCanvasProps = {

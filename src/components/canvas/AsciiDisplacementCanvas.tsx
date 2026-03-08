@@ -124,8 +124,8 @@ const AsciiDisplacementCanvas = ({ config, title, subtitle }: AsciiDisplacementC
       const targetY = targetLensRef.current.y ?? height * 0.66;
       const active = targetLensRef.current.active;
 
-      currentLensX += (targetX - currentLensX) * 0.15;
-      currentLensY += (targetY - currentLensY) * 0.15;
+      currentLensX += (targetX - currentLensX) * 0.03;
+      currentLensY += (targetY - currentLensY) * 0.03;
 
       setLens((prev) => {
         const dragging = prev.dragging;
@@ -163,15 +163,27 @@ const AsciiDisplacementCanvas = ({ config, title, subtitle }: AsciiDisplacementC
           let alpha = 0;
 
           if (normalizedY < mountainHeight + noiseVal * 0.1) {
-            const index = Math.floor(Math.abs(noiseVal) * densityChars.length);
-            char = densityChars[index % densityChars.length] ?? "";
+            const charPhase = time * 150;
+            // Large row/col offsets decouple rows; per-row speed factor makes them cycle independently
+            const rowSpeed = 1 + Math.sin(row * 1.3) * 0.4;
+            const charVal = Math.sin(col * 2.1 + row * 73.1 + charPhase * rowSpeed)
+              * Math.cos(col * 0.9 + row * 61.7 - charPhase * 0.7 * (1 + Math.cos(row * 0.9) * 0.3));
+            const weight = Math.max(0, Math.min(0.999, (charVal + 1) / 2));
+            const index = Math.floor(weight * densityChars.length);
+            char = densityChars[index] ?? "";
             alpha = Math.max(0, 1 - normalizedY * 2);
           }
 
           if (active && dist < lensEffectRadius) {
             const lensStrength = 1 - dist / lensEffectRadius;
             if (Math.random() > 0.5) {
-              char = Math.random() > 0.5 ? "0" : "1";
+              // Same row-desync pattern as main field, faster phase for lens reactivity
+              const lensRowSpeed = 1 + Math.sin(row * 1.3) * 0.4;
+              const lensPhase = time * 300;
+              const lensVal = Math.sin(col * 2.1 + row * 73.1 + lensPhase * lensRowSpeed)
+                * Math.cos(col * 0.9 + row * 61.7 - lensPhase * 0.7 * (1 + Math.cos(row * 0.9) * 0.3));
+              const lensWeight = Math.max(0, Math.min(0.999, (lensVal + 1) / 2));
+              char = densityChars[Math.floor(lensWeight * densityChars.length)] ?? "";
               context.fillStyle = `rgba(${asciiBinaryColor}, ${lensStrength})`;
             } else {
               context.fillStyle = `rgba(${asciiColor}, ${alpha})`;

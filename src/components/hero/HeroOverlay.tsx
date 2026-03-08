@@ -1,19 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 
 type Props = {
   title: string;
   subtitle: string;
   statusLine: string;
+  ctaLabel: string;
   ctaHref: string;
 };
 
 const SCRAMBLE_CHARS = " .'`^,:;Il!i><~+_-?][}{1)(|/AHJGXnyerz*#MW&8%B@$";
 const SCRAMBLE_DURATION_MS = 1250;
 
-const HeroOverlay = ({ title, subtitle, statusLine, ctaHref }: Props) => {
+const HeroOverlay = ({ title, subtitle, statusLine, ctaLabel, ctaHref }: Props) => {
   const [displayTitle, setDisplayTitle] = useState(title);
   const [scrambleActive, setScrambleActive] = useState(false);
   const [revealCount, setRevealCount] = useState(title.length);
@@ -70,11 +70,11 @@ const HeroOverlay = ({ title, subtitle, statusLine, ctaHref }: Props) => {
 
   return (
     <section
-      className="pointer-events-none absolute z-2 left-[clamp(22px,4vw,42px)] right-[clamp(22px,4vw,42px)] bottom-[clamp(64px,9vw,108px)] animate-[rise-in_500ms_ease-out] max-[960px]:bottom-[42px]"
+      className="pointer-events-none absolute z-2 left-[clamp(22px,4vw,42px)] right-[clamp(22px,4vw,42px)] bottom-[clamp(48px,7vw,88px)] animate-[rise-in_500ms_ease-out] max-[960px]:bottom-[32px]"
       aria-label="Project headline"
     >
       <h1
-        className="pointer-events-auto m-0 max-w-[650px] text-[var(--color-fg)] text-[clamp(2rem,5.3vw,4.1rem)] leading-[1.06] tracking-[-0.03em] font-semibold max-[960px]:max-w-[320px]"
+        className="pointer-events-auto m-0 w-fit text-[var(--color-fg)] text-[clamp(2rem,5.3vw,4.1rem)] leading-[1.06] tracking-[-0.03em] font-semibold"
         onPointerEnter={runScramble}
       >
         {scrambleActive
@@ -92,19 +92,27 @@ const HeroOverlay = ({ title, subtitle, statusLine, ctaHref }: Props) => {
             })
           : title}
       </h1>
-      <p className="mt-2 mb-0 max-w-[520px] text-[var(--color-fg-soft)] font-mono text-[clamp(0.78rem,1.3vw,1rem)]">
+
+      <p className="mt-2 mb-0 text-[var(--color-fg-soft)] font-mono text-[clamp(0.78rem,1.3vw,1rem)] whitespace-nowrap max-[640px]:whitespace-normal">
         {subtitle}
       </p>
-      <p className="mt-3 mb-0 max-w-[480px] font-mono text-[0.72rem] text-[var(--color-fg-muted)] leading-[1.5]">
-        <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-fg-muted)] mr-2 mb-[1px] align-middle" aria-hidden="true" />
-        {statusLine}
-      </p>
-      <Link
+
+      <div className="flex items-start gap-2 mt-3 max-[960px]:mt-2.5">
+        <span
+          className="mt-[0.38em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-available)]"
+          aria-hidden="true"
+        />
+        <p className="m-0 text-[clamp(0.73rem,1.05vw,0.83rem)] text-[var(--color-fg-muted)] leading-[1.5] max-[960px]:text-[0.78rem] whitespace-nowrap max-[640px]:whitespace-normal">
+          {statusLine}
+        </p>
+      </div>
+
+      <a
         href={ctaHref}
-        className="pointer-events-auto mt-5 inline-flex items-center gap-1.5 text-[0.82rem] font-mono text-[var(--color-fg)] no-underline hover:underline outline-none focus-visible:outline-2 focus-visible:outline-[var(--color-focus-outline)] focus-visible:outline-offset-2"
+        className="pointer-events-auto inline-flex items-center mt-5 px-4 py-2 text-[0.88rem] border border-[var(--color-border)] text-[var(--color-fg)] no-underline hover:bg-[var(--color-panel-soft)] transition-colors duration-150 outline-none focus-visible:outline-2 focus-visible:outline-[var(--color-focus-outline)] focus-visible:outline-offset-2 max-[960px]:mt-4 max-[960px]:text-[0.85rem] max-[960px]:px-3.5 max-[960px]:py-1.5"
       >
-        Get in touch <span aria-hidden="true">→</span>
-      </Link>
+        {ctaLabel}
+      </a>
     </section>
   );
 };
