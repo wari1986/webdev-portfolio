@@ -96,7 +96,7 @@ const FooterMeta = ({
       </div>
 
       <div className="flex items-center justify-between">
-        <p className="m-0 text-[0.78rem] text-[var(--color-fg-muted)] leading-[1.4] max-w-[600px]">
+        <p className="m-0 text-[0.78rem] text-[var(--color-fg-muted)] leading-[1.4] whitespace-nowrap max-[640px]:whitespace-normal">
           {statusLine}
         </p>
         <p
