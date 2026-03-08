@@ -1,8 +1,10 @@
 import AsciiDisplacementCanvas from "@/components/canvas/AsciiDisplacementCanvas";
+import AgentWidget from "@/components/agent/AgentWidget";
 import FooterMeta from "@/components/layout/FooterMeta";
 import HeroOverlay from "@/components/hero/HeroOverlay";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
+import agentConfig from "@/config/agent";
 import { asciiEngineConfig, siteContent } from "@/lib/content/siteContent";
 
 const HomePage = () => {
@@ -45,6 +47,7 @@ const HomePage = () => {
             statusLine={siteContent.statusLine}
           />
         </main>
+        {agentConfig.featureEnabled ? <AgentWidget /> : null}
       </div>
     </div>
   );
