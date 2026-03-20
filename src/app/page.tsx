@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import AsciiDisplacementCanvas from "@/components/canvas/AsciiDisplacementCanvas";
 import AgentWidget from "@/components/agent/AgentWidget";
 import FooterMeta from "@/components/layout/FooterMeta";
@@ -16,6 +18,11 @@ const HomePage = () => {
           className="relative h-screen w-screen overflow-hidden border border-[var(--color-panel-border)] bg-[var(--color-panel)] shadow-[inset_0_0_0_1px_var(--color-panel-inner-border)] flex flex-col"
           data-testid="main-panel"
         >
+          <div className="absolute left-4 top-4 z-10 flex items-center gap-3 text-sm max-[960px]:left-3 max-[960px]:top-3">
+            <Link href="/about" className="underline-offset-4 hover:underline">About</Link>
+            <Link href="/projects" className="underline-offset-4 hover:underline">Projects</Link>
+            <Link href="/contact" className="underline-offset-4 hover:underline">Contact</Link>
+          </div>
           <div className="absolute right-4 top-4 z-10 max-[960px]:right-3 max-[960px]:top-3">
             <ThemeToggle />
           </div>
