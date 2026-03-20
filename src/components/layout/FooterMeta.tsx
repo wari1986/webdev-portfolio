@@ -44,13 +44,10 @@ const FooterMeta = ({
   year,
   statusLine,
 }: FooterMetaProps) => {
-  const [clock, setClock] = useState("");
-  const [offsetLabel, setOffsetLabel] = useState("GMT+1");
+  const [clock, setClock] = useState(() => getBrusselsClock());
+  const [offsetLabel] = useState(() => getBrusselsOffsetLabel());
 
   useEffect(() => {
-    setOffsetLabel(getBrusselsOffsetLabel());
-    setClock(getBrusselsClock());
-
     const timer = window.setInterval(() => {
       setClock(getBrusselsClock());
     }, 1000);
