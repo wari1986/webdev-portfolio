@@ -34,13 +34,40 @@ describe("getClientId", () => {
   });
 
   it("uses a non-constant anonymous fingerprint fallback", () => {
-    const request = new Request("https://example.com", {
+    const firstRequest = new Request("https://example.com", {
       headers: {
         "user-agent": "Mozilla/5.0",
         "accept-language": "en-US",
       },
     });
+    const secondRequest = new Request("https://example.com", {
+      headers: {
+        "user-agent": "Mozilla/5.0 (Mobile)",
+        "accept-language": "en-US",
+      },
+    });
 
-    expect(getClientId(request)).toBe("anon:Mozilla/5.0:en-US");
+    expect(getClientId(firstRequest)).toMatch(/^anon:[a-f0-9]{24}$/);
+    expect(getClientId(secondRequest)).toMatch(/^anon:[a-f0-9]{24}$/);
+    expect(getClientId(firstRequest)).not.toBe(getClientId(secondRequest));
+  });
+
+  it("keeps fallback fingerprints deterministic for identical request headers", () => {
+    const firstRequest = new Request("https://example.com", {
+      headers: {
+        "user-agent": "Mozilla/5.0",
+        "accept-language": "en-US",
+        cookie: "session=abc123",
+      },
+    });
+    const secondRequest = new Request("https://example.com", {
+      headers: {
+        "user-agent": "Mozilla/5.0",
+        "accept-language": "en-US",
+        cookie: "session=abc123",
+      },
+    });
+
+    expect(getClientId(firstRequest)).toBe(getClientId(secondRequest));
   });
 });

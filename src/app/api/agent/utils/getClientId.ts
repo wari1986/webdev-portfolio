@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 const readForwardedFor = (value: string | null) => {
   if (!value) {
     return null;
@@ -53,6 +55,31 @@ const normalizeAddress = (value: string | null) => {
   return normalized || null;
 };
 
+const FALLBACK_FINGERPRINT_HEADERS = [
+  "user-agent",
+  "accept-language",
+  "accept",
+  "sec-ch-ua",
+  "sec-ch-ua-mobile",
+  "sec-ch-ua-platform",
+  "accept-encoding",
+  "dnt",
+  "cookie",
+  "origin",
+  "referer",
+] as const;
+
+const buildAnonymousFingerprint = (request: Request) => {
+  const fingerprintSource = FALLBACK_FINGERPRINT_HEADERS.map((headerName) => {
+    const rawValue = request.headers.get(headerName)?.trim() || "missing";
+    return `${headerName}:${rawValue}`;
+  }).join("|");
+
+  const fingerprint = createHash("sha256").update(fingerprintSource).digest("hex").slice(0, 24);
+
+  return `anon:${fingerprint}`;
+};
+
 const getClientId = (request: Request) => {
   const prioritizedAddress = [
     request.headers.get("x-real-ip"),
@@ -68,10 +95,7 @@ const getClientId = (request: Request) => {
     return prioritizedAddress;
   }
 
-  const userAgent = request.headers.get("user-agent")?.trim() || "unknown-agent";
-  const acceptLanguage = request.headers.get("accept-language")?.trim() || "unknown-lang";
-
-  return `anon:${userAgent}:${acceptLanguage}`;
+  return buildAnonymousFingerprint(request);
 };
 
 export default getClientId;
