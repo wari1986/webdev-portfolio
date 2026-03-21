@@ -38,7 +38,7 @@ describe("agentConfig numeric limits", () => {
   });
 
   it("uses numeric env values when they are valid", async () => {
-    process.env.AGENT_RATE_LIMIT_PER_MIN = "15";
+    process.env.AGENT_RATE_LIMIT_PER_MIN = " 15 ";
     process.env.AGENT_MAX_QUESTIONS_PER_SESSION = "8";
     process.env.AGENT_SESSION_WINDOW_MS = "1800000";
 

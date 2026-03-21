@@ -5,11 +5,12 @@ const parsePositiveInteger = (value: string | undefined, fallback: number, minim
     return fallback;
   }
 
-  if (!/^\d+$/.test(value)) {
+  const normalized = value.trim();
+  if (!/^\d+$/.test(normalized)) {
     return fallback;
   }
 
-  const parsed = Number.parseInt(value, 10);
+  const parsed = Number.parseInt(normalized, 10);
   if (!Number.isFinite(parsed) || parsed < minimum) {
     return fallback;
   }

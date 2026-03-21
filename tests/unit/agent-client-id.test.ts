@@ -43,6 +43,16 @@ describe("getClientId", () => {
     expect(getClientId(request)).toBe("198.51.100.12");
   });
 
+  it("ignores forwarded unknown values", () => {
+    const request = new Request("https://example.com", {
+      headers: {
+        forwarded: "for=unknown;proto=https",
+      },
+    });
+
+    expect(getClientId(request)).toBe("anon:unknown");
+  });
+
   it("uses a non-constant anonymous fingerprint fallback", () => {
     const request = new Request("https://example.com", {
       headers: {
@@ -50,8 +60,18 @@ describe("getClientId", () => {
         "accept-language": "en-US",
       },
     });
+    const repeatedRequest = new Request("https://example.com", {
+      headers: {
+        "user-agent": "Mozilla/5.0",
+        "accept-language": "en-US",
+      },
+    });
 
-    expect(getClientId(request)).toBe("anon:Mozilla/5.0:en-US");
+    const id = getClientId(request);
+
+    expect(id.startsWith("anon:")).toBe(true);
+    expect(id).not.toBe("anon:unknown");
+    expect(id).toBe(getClientId(repeatedRequest));
   });
 
   it("returns a stable anonymous default when no fallback signals exist", () => {

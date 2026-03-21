@@ -52,7 +52,36 @@ const normalizeAddress = (value: string | null) => {
   }
 
   const normalized = trimmed.replace(/^"|"$/g, "");
+  if (normalized.toLowerCase() === "unknown" || normalized.startsWith("_")) {
+    return null;
+  }
+
   return normalized || null;
+};
+
+const hashString = (value: string) => {
+  let hash = 5381;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash * 33) ^ value.charCodeAt(index);
+  }
+
+  return (hash >>> 0).toString(36);
+};
+
+const createAnonymousClientId = (request: Request) => {
+  const anonymousSignals = [
+    request.headers.get("x-vercel-id")?.trim(),
+    request.headers.get("x-request-id")?.trim(),
+    request.headers.get("user-agent")?.trim(),
+    request.headers.get("accept-language")?.trim(),
+    request.headers.get("sec-ch-ua")?.trim(),
+  ].filter(Boolean);
+
+  if (anonymousSignals.length === 0) {
+    return "anon:unknown";
+  }
+
+  return `anon:${hashString(anonymousSignals.join("|"))}`;
 };
 
 const getClientId = (request: Request) => {
@@ -70,15 +99,7 @@ const getClientId = (request: Request) => {
     return prioritizedAddress;
   }
 
-  const anonymousSignals = [
-    request.headers.get("x-vercel-id")?.trim(),
-    request.headers.get("x-request-id")?.trim(),
-    request.headers.get("user-agent")?.trim(),
-    request.headers.get("accept-language")?.trim(),
-    request.headers.get("sec-ch-ua")?.trim(),
-  ].filter(Boolean);
-
-  return anonymousSignals.length > 0 ? `anon:${anonymousSignals.join(":")}` : "anon:unknown";
+  return createAnonymousClientId(request);
 };
 
 export default getClientId;
