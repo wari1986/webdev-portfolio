@@ -23,13 +23,24 @@ describe("getClientId", () => {
     expect(getClientId(request)).toBe("203.0.113.5");
   });
 
-  it("ignores x-forwarded-for", () => {
+  it("uses x-forwarded-for when edge headers are unavailable", () => {
     const request = new Request("https://example.com", {
       headers: {
         "x-forwarded-for": "1.2.3.4, 5.6.7.8",
       },
     });
 
-    expect(getClientId(request)).toBe("anonymous");
+    expect(getClientId(request)).toBe("1.2.3.4");
+  });
+
+  it("uses a non-constant anonymous fingerprint fallback", () => {
+    const request = new Request("https://example.com", {
+      headers: {
+        "user-agent": "Mozilla/5.0",
+        "accept-language": "en-US",
+      },
+    });
+
+    expect(getClientId(request)).toBe("anon:Mozilla/5.0:en-US");
   });
 });
