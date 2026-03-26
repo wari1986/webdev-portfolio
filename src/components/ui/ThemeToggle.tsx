@@ -22,6 +22,8 @@ const getThemeSnapshot = (): Theme => {
   return getStoredTheme() ?? getSystemTheme();
 };
 
+const getServerThemeSnapshot = (): Theme => "light";
+
 const subscribeToTheme = (callback: () => void) => {
   if (typeof window === "undefined") return () => undefined;
 
@@ -48,7 +50,7 @@ const applyTheme = (theme: Theme) => {
 };
 
 const ThemeToggle = () => {
-  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, () => "light");
+  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, getServerThemeSnapshot);
 
   useEffect(() => {
     applyTheme(theme);
