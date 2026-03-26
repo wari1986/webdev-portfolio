@@ -1,51 +1,63 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 import { Button } from "@/components/ui/button";
 
 type Theme = "light" | "dark";
 
 const THEME_STORAGE_KEY = "portfolio-theme";
+const THEME_EVENT = "portfolio-theme-change";
 
 const getSystemTheme = (): Theme =>
   window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+
+const getStoredTheme = (): Theme | null => {
+  const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+  return savedTheme === "light" || savedTheme === "dark" ? savedTheme : null;
+};
+
+const getThemeSnapshot = (): Theme => {
+  if (typeof window === "undefined") return "light";
+  return getStoredTheme() ?? getSystemTheme();
+};
+
+const subscribeToTheme = (callback: () => void) => {
+  if (typeof window === "undefined") return () => undefined;
+
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+  const onThemeChange = () => callback();
+  const onSystemThemeChange = () => {
+    if (getStoredTheme()) return;
+    callback();
+  };
+
+  window.addEventListener("storage", onThemeChange);
+  window.addEventListener(THEME_EVENT, onThemeChange);
+  media.addEventListener("change", onSystemThemeChange);
+
+  return () => {
+    window.removeEventListener("storage", onThemeChange);
+    window.removeEventListener(THEME_EVENT, onThemeChange);
+    media.removeEventListener("change", onSystemThemeChange);
+  };
+};
 
 const applyTheme = (theme: Theme) => {
   document.documentElement.setAttribute("data-theme", theme);
 };
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === "undefined") return "light";
-    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-    if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
-    return getSystemTheme();
-  });
+  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, () => "light");
 
   useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
     applyTheme(theme);
-
-    const onSystemThemeChange = (event: MediaQueryListEvent) => {
-      const currentSavedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-      if (currentSavedTheme) return;
-      const nextTheme: Theme = event.matches ? "dark" : "light";
-      setTheme(nextTheme);
-    };
-
-    media.addEventListener("change", onSystemThemeChange);
-
-    return () => {
-      media.removeEventListener("change", onSystemThemeChange);
-    };
   }, [theme]);
 
   const toggleTheme = () => {
     const nextTheme: Theme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
-    applyTheme(nextTheme);
     window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    window.dispatchEvent(new Event(THEME_EVENT));
   };
 
   return (
